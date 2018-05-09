@@ -18,7 +18,7 @@ namespace NeuronalesNetz_V0._5
             
             styleTrans.discriminator.SetAfNames("S", "S");
             styleTrans.discriminator.SetAfT(1, 20000);
-            styleTrans.discriminator.SetAfT(2, 50);
+            styleTrans.discriminator.SetAfT(2, 50123);
             
             styleTrans.TrainDisciminator(10000, @"C:\byteArr für ki");
 
