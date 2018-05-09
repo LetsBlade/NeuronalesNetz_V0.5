@@ -1,0 +1,8 @@
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\bin\Release\NeuronalesNetz_V0.5.exe.config
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\bin\Release\NeuronalesNetz_V0.5.exe
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\bin\Release\NeuronalesNetz_V0.5.pdb
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\obj\Release\NeuronalesNetz_V0._5.DisplayArr.resources
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\obj\Release\NeuronalesNetz_V0.5.csproj.GenerateResource.Cache
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\obj\Release\NeuronalesNetz_V0.5.csproj.CoreCompileInputs.cache
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\obj\Release\NeuronalesNetz_V0.5.exe
+D:\Desktop\NeuronalesNetz_V0.5\NeuronalesNetz_V0.5\obj\Release\NeuronalesNetz_V0.5.pdb
