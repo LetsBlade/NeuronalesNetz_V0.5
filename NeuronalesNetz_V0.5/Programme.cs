@@ -14,11 +14,11 @@ namespace NeuronalesNetz_V0._5
     {
         public static void GenerateAnimie(string echtbildPath, string animiePath)
         {
-            UCDIG styleTrans = new UCDIG(new SimpleNet(0.5, 760124124500, 100, 1), new SimpleNet(0.5, 67500, 100), new SimpleNet(0.5, 100, 76500));
+            UCDIG styleTrans = new UCDIG(new SimpleNet(0.5, 76500, 100, 1), new SimpleNet(0.5, 67500, 100), new SimpleNet(0.5, 100, 76500));
             
             styleTrans.discriminator.SetAfNames("S", "S");
             styleTrans.discriminator.SetAfT(1, 20000);
-            styleTrans.discriminator.SetAfT(2, 50123);
+            styleTrans.discriminator.SetAfT(2, 50);
             
             styleTrans.TrainDisciminator(10000, @"C:\byteArr für ki");
 
