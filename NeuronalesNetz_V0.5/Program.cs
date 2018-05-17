@@ -16,7 +16,7 @@ namespace NeuronalesNetz_V0._5
     {
         static void Main(string[] args)
         {
-            int a = 5;
+            int a = 6;
             int b = 2;
             Console.WriteLine(Convert.ToInt32(Math.Round(Convert.ToDouble(a) / Convert.ToDouble(b),MidpointRounding.AwayFromZero)));
 
