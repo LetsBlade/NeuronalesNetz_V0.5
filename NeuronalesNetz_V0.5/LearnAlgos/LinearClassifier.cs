@@ -290,5 +290,25 @@ namespace NeuronalesNetz_V0._5.LearnAlgos
             arr[p0] = arr[p1];
             arr[p1] = o;
         }
+        public static string SwitchPosInArr(char[] arr, int p0, int p1)
+        {
+            char o = arr[p0];
+            arr[p0] = arr[p1];
+            arr[p1] = o;
+
+            return new string(arr);
+        }
+        public static void SwitchPosInArr(double[] arr, int p0, int p1)
+        {
+            double o = arr[p0];
+            arr[p0] = arr[p1];
+            arr[p1] = o;
+        }
+        public static void SwitchPosInArr(double[][] arr, int p0, int p1)
+        {
+            double[] o = arr[p0];
+            arr[p0] = arr[p1];
+            arr[p1] = o;
+        }
     }
 }

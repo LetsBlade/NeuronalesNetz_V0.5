@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NeuronalesNetz_V0._5.LearnAlgos;
 
 namespace NeuronalesNetz_V0._5
 {
@@ -11,12 +12,10 @@ namespace NeuronalesNetz_V0._5
         public static readonly int MaxDelay = 20;
         public List<Connection> connection;
         public List<NeuronPosition> zuPos;
-        public double[] connectionsToValue;
         public List<double> lastOutputList;
         public List<double> lastDeltaList;
         public string bezeichnung;
         public double[] parameter;
-        private double netzinput;
         public double CurrentOutput
         {
             get
@@ -54,6 +53,17 @@ namespace NeuronalesNetz_V0._5
                 lastDeltaList[0] = value;
             }
         }
+        public double OutputFactor
+        {
+            get
+            {
+                return parameter.Last();
+            }
+            set
+            {
+                parameter[parameter.Length - 1]=value;
+            }
+        }
 
         public Neuron(string bezeichnung0,params double[] parameter0)
         {
@@ -61,7 +71,6 @@ namespace NeuronalesNetz_V0._5
             bezeichnung = bezeichnung0;
             parameter = parameter0;
             lastDeltaList = new List<double>(new double[MaxDelay]);
-            connectionsToValue = new double[0];
             lastOutputList = new List<double>(new double[MaxDelay]);
         }
         public Neuron(List<Connection> connection0)
@@ -70,7 +79,6 @@ namespace NeuronalesNetz_V0._5
             bezeichnung = "";
             parameter = new double[0];
             lastDeltaList = new List<double>(new double[MaxDelay]);
-            connectionsToValue = new double[0];
             lastOutputList = new List<double>(new double[MaxDelay]);
         }
         public Neuron()
@@ -79,11 +87,10 @@ namespace NeuronalesNetz_V0._5
             bezeichnung = "";
             parameter = new double[0];
             lastDeltaList = new List<double>(new double[MaxDelay]);
-            connectionsToValue = new double[0];
             lastOutputList = new List<double>(new double[MaxDelay]);
         }
 
-        public double OutputBerechnen()
+        public double OutputBerechnen(double[] connectionsToValue)
         {
             MoveLastOutput();
             double a = 0;
@@ -117,8 +124,10 @@ namespace NeuronalesNetz_V0._5
         public void AddParameterHinten(char art, double t)
         {
             bezeichnung = bezeichnung + art;
+            bezeichnung = LinearClassifier.SwitchPosInArr(bezeichnung.ToArray(), bezeichnung.Length - 1, bezeichnung.Length - 2);
             double[] a = { t };
             parameter = parameter.Concat(a).ToArray();
+            LinearClassifier.SwitchPosInArr(parameter, parameter.Length - 1, parameter.Length - 2);
         }
         public void AddParameterVorne(char art, double t)
         {
@@ -129,13 +138,15 @@ namespace NeuronalesNetz_V0._5
         public void AddParameterHinten(char art)
         {
             bezeichnung = bezeichnung + art;
-            double[] a = { 0 };
+            bezeichnung = LinearClassifier.SwitchPosInArr(bezeichnung.ToArray(), bezeichnung.Length - 1, bezeichnung.Length - 2);
+            double[] a = { 1 };
             parameter = parameter.Concat(a).ToArray();
+            LinearClassifier.SwitchPosInArr(parameter, parameter.Length - 1, parameter.Length - 2);
         }
         public void AddParameterVorne(char art)
         {
             bezeichnung = art + bezeichnung;
-            double[] a = { 0 };
+            double[] a = { 1 };
             parameter = a.Concat(parameter).ToArray();
         }
 

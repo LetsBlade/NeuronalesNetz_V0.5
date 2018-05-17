@@ -7,6 +7,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using NeuronalesNetz_V0._5.KI_Sachen;
 
 namespace NeuronalesNetz_V0._5
 {
@@ -15,18 +16,13 @@ namespace NeuronalesNetz_V0._5
     {
         static void Main(string[] args)
         {
+            int a = 5;
+            int b = 2;
+            Console.WriteLine(Convert.ToInt32(Math.Round(Convert.ToDouble(a) / Convert.ToDouble(b),MidpointRounding.AwayFromZero)));
 
-            Programme.GenerateAnimie(@"C:\gesichter arr", @"C:\byteArr für ki");
-
-            Programme.TestLC();
-            Programme.SimpleTetris();
-            Programme.Q_Learning_Tetris();
-            Programme.SimpleTetris();
-            Programme.SimpleBilderErkennen.Run(1000000,1000);
-            Programme.SimplesSpielStart();
-            //Console.ReadLine();
-            Programme.BilderErkennen.Run(100000,100);
-
+            double[,] arr = new double[5, 5] { { 0, 1, 2, 3, 4 }, { 5, 6, 7, 8, 9 }, { 10, 11, 12, 13, 14 }, { 15, 16, 17, 18, 19 }, { 20, 21, 22, 23, 24 } };
+            double[,] arr2 = CNN2D.GetPice(arr, 1, 1, 5,5);
+            CNN2D.InsertValue(arr, 1, 1, 2, 2, 30);
 
             Console.ReadLine();
         }

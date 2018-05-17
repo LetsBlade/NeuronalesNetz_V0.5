@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NeuronalesNetz_V0._5.KI_Sachen
 {
-    public class SimpleNet
+    public partial class SimpleNet
     {
         private static Random rnd = new Random();
         public double[][] NeuronValue;
@@ -48,7 +48,7 @@ namespace NeuronalesNetz_V0._5.KI_Sachen
         public void SetAfNames(params string[] name)
         {
             string[] a = new string[1];
-
+            
             NeuronArt = a.Concat(name).ToArray();
         }
 
@@ -57,7 +57,7 @@ namespace NeuronalesNetz_V0._5.KI_Sachen
             ArtT[index] = T;
         }
 
-        public void SetInput(double[] input)
+        public virtual void SetInput(double[] input)
         {
             if (input.Length > NeuronValue[0].Length)
             {
@@ -75,7 +75,7 @@ namespace NeuronalesNetz_V0._5.KI_Sachen
             NeuronValue[0] = NeuronValue[0].Concat(new double[addInput]).ToArray();
         }
 
-        public void OutputBerechnen()
+        public virtual void OutputBerechnen()
         {
             for(int i0 = 1; i0 < NeuronValue.Length; ++i0)
             {

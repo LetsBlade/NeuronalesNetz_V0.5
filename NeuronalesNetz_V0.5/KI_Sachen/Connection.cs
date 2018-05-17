@@ -14,9 +14,11 @@ namespace NeuronalesNetz_V0._5
         public double Weight;
         public List<double> time;
         private static Random rnd = new Random();
+        public double lastChange;
 
         public Connection(NeuronPosition pos0, double newWeight, int Delay)
         {
+            lastChange = 0;
             Pos = pos0;
             Weight = newWeight;
             delay = Delay;
@@ -25,6 +27,7 @@ namespace NeuronalesNetz_V0._5
 
         public Connection(NeuronPosition pos0, double newWeight)
         {
+            lastChange = 0;
             int a = rnd.Next(100);
 
             Pos = pos0;
@@ -39,6 +42,7 @@ namespace NeuronalesNetz_V0._5
 
         public Connection(NeuronPosition pos0)
         {
+            lastChange = 0;
             int a = rnd.Next(100);
 
             Pos = pos0;
@@ -66,11 +70,15 @@ namespace NeuronalesNetz_V0._5
 
         public void MachBackpropadings(double deltaVongI, double etha)
         {
-            double a = 10;
+            lastChange = 0;
             if (!double.IsNaN((time[0] / Weight)))
-                a = (time[0] / Weight);
+            {
+                lastChange = (time[0] / Weight);
 
-            Weight += a * deltaVongI * etha;
+                lastChange *= deltaVongI * etha;
+                Weight += lastChange;
+            }
+
         }
 
         public override string ToString()

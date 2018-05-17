@@ -431,9 +431,7 @@ namespace NeuronalesNetz_V0._5
             {
                 for (int i1 = 0; i1 < neuron[i0].Count; ++i1)
                 {
-                    neuron[i0][i1].connectionsToValue = GetValuesArr(neuron[i0][i1].connection);
-                    neuron[i0][i1].OutputBerechnen();
-                    neuron[i0][i1].connectionsToValue.Initialize();
+                    neuron[i0][i1].OutputBerechnen(GetValuesArr(neuron[i0][i1].connection));
                 }
             }
         }
@@ -525,6 +523,20 @@ namespace NeuronalesNetz_V0._5
 
         }
 
+        public void FactorAktualisieren()
+        {
+            for(int i0 = 0; i0 < neuron.Length; ++i0)
+            {
+                for (int i1 = 0; i1 < neuron[i0].Count; ++i1)
+                {
+                    Parallel.For(0, neuron[i0][i1].connection.Count, i2 => 
+                    {
+                        neuron[neuron[i0][i1].connection[i2].Pos.layer][neuron[i0][i1].connection[i2].Pos.height].OutputFactor += neuron[i0][i1].connection[i2].lastChange;
+                    });
+                }
+            }
+        }
+
         public double GetFehlerDif(double[] outputSoll)
         {
             double a = 0;
@@ -576,7 +588,7 @@ namespace NeuronalesNetz_V0._5
                     {
                         for (int i2 = 0; i2 < neuron[i0][i1].connection.Count; ++i2)
                         {
-                            if(Math.Abs(neuron[i0][i1].connection[i2].Weight) < 0.01)
+                            if(Math.Abs(neuron[i0][i1].connection[i2].Weight) < zuWenig)
                             {
                                 neuron[i0][i1].connection.RemoveAt(i2);
                                 --i2;

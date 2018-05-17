@@ -256,6 +256,7 @@ namespace NeuronalesNetz_V0._5
 
     public class MatrixMafs
     {
+
         public static double[] ArrDivNum(double[] x0, double x1)
         {
             double[] y = new double[x0.Length];
