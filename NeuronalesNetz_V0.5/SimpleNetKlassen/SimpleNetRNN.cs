@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeuronalesNetz_V0._5.KI_Sachen
+namespace NeuronalesNetz_V0._5.SimpleNetKlassen
 {
-    public partial class SimpleNetRNN : SimpleNet
+    public class SimpleNetRNN : SimpleNet
     {
         public List<double> rnnList;
 

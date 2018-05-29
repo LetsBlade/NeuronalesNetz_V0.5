@@ -13,7 +13,8 @@ namespace NeuronalesNetz_V0._5
         public static readonly string Bias = "B";
         public static readonly string Linear = "L";
         public static readonly string Schwellwert = "C";
-            
+        public static readonly string RelU = "R";
+
     }
 
     public class Variablen

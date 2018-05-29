@@ -7,15 +7,55 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using NeuronalesNetz_V0._5.KI_Sachen;
+using NeuronalesNetz_V0._5.KompliziertNetSachen;
+using NeuronalesNetz_V0._5.SimpleNetKlassen;
+using System.Runtime.Serialization;
 
 namespace NeuronalesNetz_V0._5
 {
   
     class Program
     {
+        [Serializable]
+        private class KuhleKlasse
+        {
+            byte a;
+            byte b;
+            List<SimpleNet> x = new List<SimpleNet>();
+
+        }
+
         static void Main(string[] args)
         {
+            Connection y = new Connection(new NeuronPosition(0, 0));
+            KuhleKlasse x = new KuhleKlasse();
+            Console.WriteLine(GetLength(y));
+
+
+
+            Console.ReadLine();
+            Programme.PlayPongN();
+            Pong.DrawMap();
+
+            while (true)
+            {
+
+                Console.SetCursorPosition(0, 0);
+                char c = Console.ReadKey().KeyChar;
+                if (c == 'w')
+                    Pong.Play(0, 0);
+                else if (c == 's')
+                    Pong.Play(1, 0);
+
+            }
+
+            Console.ReadLine();
+            Tetris.TetrisSetup();
+            Tetris.MapAktualisieren(true);
+            while (true)
+            {
+                Tetris.UserBewegung(Console.ReadKey().KeyChar);
+            }
             int a = 6;
             int b = 2;
             Console.WriteLine(Convert.ToInt32(Math.Round(Convert.ToDouble(a) / Convert.ToDouble(b),MidpointRounding.AwayFromZero)));
@@ -52,8 +92,6 @@ namespace NeuronalesNetz_V0._5
                 bformatter.Serialize(stream, t);
             }
         }
-        //Could explicitly return 2d array, 
-        //or be casted from an object to be more dynamic
         public static object Deserialize(string path)
         {
             using (Stream stream = File.Open(path, FileMode.Open))
@@ -63,6 +101,20 @@ namespace NeuronalesNetz_V0._5
             }
         }
 
+
+        public static long GetLength(object obj)
+        {
+            long lenght;
+            using (MemoryStream str = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+
+                formatter.Serialize(str, obj);
+                lenght = str.Length;
+            }
+
+            return lenght;
+        }
 
     }
 

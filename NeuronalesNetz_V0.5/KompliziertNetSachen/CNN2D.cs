@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeuronalesNetz_V0._5.KI_Sachen
+namespace NeuronalesNetz_V0._5.KompliziertNetSachen
 {
     public class CNN2D
     {
-        private object[] layer;
+        private object[][] layer;
 
 
         public class PoolingLayer
@@ -53,6 +53,7 @@ namespace NeuronalesNetz_V0._5.KI_Sachen
         public class ConvolutionalLayer
         {
             private double[,] filter;
+            private double[,] inputValue;
             public double[,] value;
             public double[,] deltaValue;
 
@@ -69,20 +70,64 @@ namespace NeuronalesNetz_V0._5.KI_Sachen
 
             public void OutputBerechnen(double[,] input)
             {
+                value = new double[input.GetLength(0) - filter.GetLength(0), input.GetLength(1)-filter.GetLength(1)];
+                deltaValue = new double[input.GetLength(0), input.GetLength(1)];
+                inputValue = input;
 
+                Parallel.For(0, input.GetLength(0), i0 => 
+                {
+                    for (int i1 = 0; i1 < input.GetLength(1) - filter.GetLength(1); ++i1)
+                    {
+                        value[i0, i1] = GetMatrixSum(MultMartix(GetPice(value, i0, i1, filter.GetLength(0), filter.GetLength(1)), filter));
+                    }
+                });
             }
 
-            public void DeltaValueBerechnen(double[,] input)
+            public void DeltaValueBerechnen(double[,] delta)
             {
-               
+                for(int i0 = 0; i0 < filter.GetLength(0); ++i0)
+                {
+                    for (int i1 = 0; i1 < filter.GetLength(1); ++i1)
+                    {
+                        double change = 0;
+                        for (int i2 = 0; i2 < value.GetLength(0); ++i2)
+                        {
+                            for (int i3 = 0; i3 < value.GetLength(1); ++i3)
+                            {
+                                change += inputValue[i2 + i0, i3 + i1] * delta[i2, i3];
+                            }
+                        }
+
+                        filter[i0, i1] += change / Convert.ToDouble(value.Length);
+                    }
+                }
             }
         }
 
-        public static double[] GetMatrixSum(double[,] arr)
+        public static void AddMatrixInMatrix(double[,] arr0, double[,] arr1, int xOffset, int yOffset)
+        {
+            int xLength = arr1.GetLength(0) - Convert.ToInt32(NeuroMaths.RelU(xOffset + arr1.GetLength(0) - arr0.GetLength(0)));
+            int yLength = arr1.GetLength(1) - Convert.ToInt32(NeuroMaths.RelU(yOffset + arr1.GetLength(1) - arr0.GetLength(1)));
+
+            for (int i0 = 0; i0 < xLength; ++i0)
+            {
+                for (int i1 = 0; i1 < yLength; ++i1)
+                {
+                    arr0[i0 + xOffset, i1 + yOffset] += arr1[i0, i1];
+                }
+            }
+        }
+
+        public static double GetMatrixSum(double[,] arr)
         {
             double sum = 0;
 
-            foreach8
+            foreach(double item in arr)
+            {
+                sum += item;
+            }
+
+            return sum;
         }
 
         public static double[,] MultMartix(double[,] arr0, double[,] arr1)

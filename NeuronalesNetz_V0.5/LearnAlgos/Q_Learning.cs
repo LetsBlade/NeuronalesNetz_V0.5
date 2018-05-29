@@ -19,17 +19,10 @@ namespace NeuronalesNetz_V0._5
         public double exploreReward;
         public object lastState;
         public int? lastAction;
-        public string[] actionName;
         private List<StAck> allreadyUpdated = new List<StAck>();
 
-        public Q_Learning(double gamma, double exploreProb, int actionsCount, double exploreReward, params string[] actionName)
+        public Q_Learning(double gamma, double exploreProb, int actionsCount, double exploreReward)
         {
-            if (actionName.Length != actionsCount)
-            {
-                throw new Exception("ActionName hatte die falsche länge");
-            }
-
-            this.actionName = actionName;
             this.gamma = gamma;
             this.exploreProb = exploreProb;
             this.actionsCount = actionsCount;
@@ -46,7 +39,7 @@ namespace NeuronalesNetz_V0._5
 
             if (!Q_Table.ContainsKey(thisState))
             {
-                Q_Table.Add(thisState, new Q_State(actionsCount, exploreReward, lastState, lastAction, actionName));
+                Q_Table.Add(thisState, new Q_State(actionsCount, exploreReward, lastState, lastAction));
 
                 //Q_Table.OrderBy(i => i.Key);
             }
@@ -55,19 +48,19 @@ namespace NeuronalesNetz_V0._5
             {
                 Q_Table[thisState].AddVongState(new StAck(lastState, (int)lastAction));
             }
-            if (reward == 0 && lastAction != null && lastState.Equals(thisState)) 
-            {
-                Q_Table[thisState].actionReward[(int)lastAction] = -10;
-            }
+            //if (reward == 0 && lastAction != null && lastState.Equals(thisState)) 
+            //{
+            //    Q_Table[thisState].actionReward[(int)lastAction] = -10;
+            //}
 
             if (reward != 0)
             {
                 Q_Table[lastState].actionReward[(int)lastAction] = reward;
 
-                if (reward > 0)
+                //if (reward > 0)
                     UpdateRecursive(thisState);
-                else
-                    UpateLOL();
+                //else
+                    //UpateLOL();
 
                 allreadyUpdated = new List<StAck>();
                 lastState = null;
@@ -76,8 +69,12 @@ namespace NeuronalesNetz_V0._5
 
             nextAction = Q_Table[thisState].GetMaxAction(exploreProb);
 
-            lastAction = nextAction;
-            lastState = thisState;
+            if (reward == 0)
+            {
+                lastAction = nextAction;
+                lastState = thisState;
+            }
+
             return nextAction;
         }
 
@@ -118,11 +115,9 @@ namespace NeuronalesNetz_V0._5
         private static Random rnd = new Random();
         public double[] actionReward;        //alle states, die zu diesem state führen         //die action in vong state, welche zu diesem state führen
         public List<StAck> vongStack;
-        public string[] actionName;
 
-        public Q_State(int actionsCout, double exploreReward, string[] actionName)
+        public Q_State(int actionsCout, double exploreReward)
         {
-            this.actionName = actionName;
             actionReward = new double[actionsCout];
           
 
@@ -135,9 +130,8 @@ namespace NeuronalesNetz_V0._5
 
         }
 
-        public Q_State(int actionsCout, double exploreReward, object lastState, int? lastAction, string[] actionName)
+        public Q_State(int actionsCout, double exploreReward, object lastState, int? lastAction)
         {
-            this.actionName = actionName;
             actionReward = new double[actionsCout];
             vongStack = new List<StAck>();
 
@@ -154,10 +148,9 @@ namespace NeuronalesNetz_V0._5
 
         }
 
-        public Q_State(int actionsCout, double exploreReward, List<StAck> lastStack, string[] actionName)
+        public Q_State(int actionsCout, double exploreReward, List<StAck> lastStack)
         {
             vongStack = new List<StAck>();
-            this.actionName = actionName;
             actionReward = new double[actionsCout];
 
             for (int i = 0; i < actionsCout; ++i)
@@ -262,7 +255,6 @@ namespace NeuronalesNetz_V0._5
 
             for (int i = 0; i < actionReward.Length; ++i)
             {
-                a += actionName[i] + ":";
                 a += Math.Round(actionReward[i]) + ", ";
             }
 

@@ -157,7 +157,7 @@ namespace NeuronalesNetz_V0._5
         public static void Q_Learning_Tetris()
         {
             int lauf = 0;
-            Q_Learning Q = new Q_Learning(0.9, 0.2, 5, 3,"Links","Rechts","Unten","Links Drehen","Rechts Drehen");
+            Q_Learning Q = new Q_Learning(0.9, 0.2, 5, 3);
             while (true)
             {
                 Tetris.TetrisSetup();
@@ -200,8 +200,137 @@ namespace NeuronalesNetz_V0._5
             Console.WriteLine("\n");
         }
 
-        public static void BitmapConverter(string inputPath,string outputPath)
+
+        public static void PlayPong()
         {
+            Q_Learning player1 = new Q_Learning(0.8, 0, 3, 0);
+            Q_Learning player2 = new Q_Learning(0.8, 0, 3, 0);
+
+            for(int i=0;i<120000;++i)
+            {
+                int p1 = player1.Get_SetAction(Pong.GetState1(), Pong.punktePlayer1);
+                int p2 = player2.Get_SetAction(Pong.GetState2(), Pong.punktePlayer2);
+
+ 
+
+                Pong.punktePlayer1 = 0;
+                Pong.punktePlayer2 = 0;
+
+                Pong.Play(p1, p2);
+                //System.Threading.Thread.Sleep(20);
+
+                
+            }
+            while (true)
+            {
+                int p1 = player1.Get_SetAction(Pong.GetState1(), Pong.punktePlayer1);
+                int p2 = player2.Get_SetAction(Pong.GetState2(), Pong.punktePlayer2);
+
+
+
+                Pong.punktePlayer1 = 0;
+                Pong.punktePlayer2 = 0;
+
+                Pong.Play(p1, p2);
+                //Pong.DrawMap();
+                System.Threading.Thread.Sleep(20);
+            }
+        }
+
+        public static void PlayPongN()
+        {
+            SimpleNetVer Jeff = new SimpleNetVer(7 ,1, -1, 2, 5, 20, 40, 100, 40, 3);
+            Jeff.SetAfNames("t","rtL", "rtL", "rtL", "s");
+            Jeff.SetAfT(1, 1);
+            Jeff.SetAfT(2, 0, 1, 2);
+            Jeff.SetAfT(3, 0, 1, 2);
+            Jeff.SetAfT(4, 0, 1, 2);
+            Jeff.SetAfT(5, 1);
+
+
+            //Q_Learning Jeffine = new Q_Learning(0.9, 0, 3, 0);
+
+
+
+            Pong.DrawMap();
+            Random rnd = new Random();
+
+            while (true)
+            {
+                Jeff.SetInput(Pong.GetState1NN()/*.Concat(new double[] { rnd.NextDouble() * 10 - 5 }).ToArray()*/);
+                Jeff.OutputBerechnen();
+
+                //int act = Jeffine.Get_SetAction(Pong.GetState2(), Pong.punktePlayer2);
+
+
+                Pong.punktePlayer1 = 0;
+                Pong.punktePlayer2 = 0;
+
+
+                Pong.Play(Jeff.GetMaxOutputIndex(), null);
+
+                if (Pong.punktePlayer1 != 0)
+                {
+                    Jeff.LearnWithRegister(Pong.punktePlayer1,true,0.9);
+                    Jeff.lastInput = new List<double[]>();
+                }
+                
+
+                //System.Threading.Thread.Sleep(20);
+            }
+
+        }
+
+        public static void PlayPongNN()
+        {
+            SimpleNetVer Jeff = new SimpleNetVer(50, 1, -0.4, 0.8, 6, 50, 25, 3);
+            Jeff.SetAfNames("r", "TL", "s");
+            Jeff.SetAfT(1, 0);
+            Jeff.SetAfT(2, 5, 2);
+            Jeff.SetAfT(3, 1);
+
+
+            SimpleNetVer Jeffine = new SimpleNetVer(50, 1, -0.4, 0.8, 6, 100, 50, 3);
+            Jeffine.SetAfNames("r", "TL", "s");
+            Jeffine.SetAfT(1, 0);
+            Jeffine.SetAfT(2, 5, 2);
+            Jeffine.SetAfT(3, 1);
+
+
+
+            Pong.DrawMap();
+            Random rnd = new Random();
+
+            while (true)
+            {
+                Jeff.SetInput(Pong.GetState1NN().Concat(new double[] { rnd.NextDouble() * 100 - 50 }).ToArray());
+                Jeff.OutputBerechnen();
+
+                Jeffine.SetInput(Pong.GetState2NN().Concat(new double[] { rnd.NextDouble() * 100 - 50 }).ToArray());
+                Jeffine.OutputBerechnen();
+
+
+                Pong.punktePlayer1 = 0;
+                Pong.punktePlayer2 = 0;
+
+
+                Pong.Play(Jeff.GetMaxOutputIndex(), Jeffine.GetMaxOutputIndex());
+
+                if (Pong.punktePlayer1 != 0)
+                {
+                    Jeff.LearnWithRegister(Pong.punktePlayer1, true, 1);
+                    Jeff.lastInput = new List<double[]>();
+                }
+
+                if (Pong.punktePlayer2 != 0)
+                {
+                    Jeffine.LearnWithRegister(Pong.punktePlayer2, true, 1);
+                    Jeffine.lastInput = new List<double[]>();
+                }
+
+
+                //System.Threading.Thread.Sleep(20);
+            }
 
         }
 
@@ -576,7 +705,7 @@ namespace NeuronalesNetz_V0._5
 
         public static void SimplesSpielStart()
         {
-            Q_Learning Tim3 = new Q_Learning(0.96, 0.1, 4, 0, "r", "l", "o", "u");
+            Q_Learning Tim3 = new Q_Learning(0.96, 0.1, 4, 0);
             SimplesSpiel.Setup(5, 5, 0,1);
             int action;
             SimpleNet Prediction = new SimpleNet(4, 29,30 ,25);

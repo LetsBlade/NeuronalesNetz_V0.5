@@ -1001,4 +1001,301 @@ namespace NeuronalesNetz_V0._5
             }
         }
     }
+
+    public class Pong
+    {
+        public static int posPlayer1 = 0;
+        public static int posPlayer2 = 0;
+        public static int xPosBall = 50;
+        public static int yPosBall = 10;
+        public static double punktePlayer1 = 0;
+        public static double punktePlayer2 = 0;
+        public static bool wallP1 = false;
+        public static bool wallP2 = true;
+
+        public static bool left = true;
+        public static bool up;
+        public static char barChar = '█';
+        public static char ballChar = '0';
+        public static int barHeigth = 3;
+        public static int bar2x = 105;
+        public static int mapHeigth = 30;
+        private static Random rnd = new Random();
+
+        public static void DrawMap()
+        {
+            Console.CursorVisible = false;
+            if (wallP1)
+            {
+                for (int i = 0; i < mapHeigth; ++i)
+                {
+                    Console.SetCursorPosition(0, i);
+                    Console.Write(barChar);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < barHeigth; ++i)
+                {
+                    Console.SetCursorPosition(0, i);
+                    Console.Write(barChar);
+                }
+            }
+
+            if (wallP2)
+            {
+                for (int i = 0; i < mapHeigth; ++i)
+                {
+                    Console.SetCursorPosition(bar2x, i);
+                    Console.Write(barChar);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < barHeigth; ++i)
+                {
+                    Console.SetCursorPosition(bar2x, i);
+                    Console.Write(barChar);
+                }
+            }
+
+            for(int i = 0; i < bar2x + 1; ++i)
+            {
+                Console.SetCursorPosition(i, mapHeigth);
+                Console.Write(barChar);
+            }
+
+            Console.SetCursorPosition(xPosBall,yPosBall);
+            Console.Write(ballChar);
+        }
+
+        public static void MoveBar(bool bar, bool dir)
+        {
+            if (bar)
+            {
+                if (dir)
+                {
+                    if (posPlayer1 < mapHeigth-barHeigth)
+                    {
+                        Console.SetCursorPosition(0, posPlayer1);
+                        Console.Write(" ");
+                        Console.SetCursorPosition(0, posPlayer1 + barHeigth);
+                        Console.Write(barChar);
+                        posPlayer1++;
+                    }
+                }
+                else
+                {
+                    if (posPlayer1 > 0)
+                    {
+                        Console.SetCursorPosition(0, posPlayer1 + barHeigth - 1);
+                        Console.Write(" ");
+                        Console.SetCursorPosition(0, posPlayer1 - 1);
+                        Console.Write(barChar);
+                        posPlayer1--;
+                    }
+                }                    
+            }
+            else
+            {
+                if (dir)
+                {
+                    if (posPlayer2 < mapHeigth-barHeigth)
+                    {
+                        Console.SetCursorPosition(bar2x, posPlayer2);
+                        Console.Write(" ");
+                        Console.SetCursorPosition(bar2x, posPlayer2 + barHeigth);
+                        Console.Write(barChar);
+                        posPlayer2++;
+                    }
+                }
+                else
+                {
+                    if (posPlayer2 > 0)
+                    {
+                        Console.SetCursorPosition(bar2x, posPlayer2 + barHeigth - 1);
+                        Console.Write(" ");
+                        Console.SetCursorPosition(bar2x, posPlayer2 - 1);
+                        Console.Write(barChar);
+                        posPlayer2--;
+                    }
+                }
+            }            
+        }
+
+        public static void MoveBall()
+        {
+            if(yPosBall == 0)
+            {
+                up = false;
+            }
+            else if(yPosBall == mapHeigth - 1)
+            {
+                up = true;
+            }
+
+            if(xPosBall == 1)
+            {
+                if (wallP1)
+                {
+                    left = false;
+                }
+                else
+                {
+                    for (int i = 0; i < barHeigth; ++i)
+                    {
+                        if (i + posPlayer1 == yPosBall)
+                        {
+                            left = false;
+                            punktePlayer1++;
+                        }
+                    }
+                }
+
+            }
+            if (xPosBall == bar2x - 3)
+            {
+                if (wallP2)
+                {
+                    left = true;
+                }
+                else
+                {
+                    for (int i = 0; i < barHeigth; ++i)
+                    {
+                        if (i + posPlayer2 == yPosBall)
+                        {
+                            punktePlayer2++;
+                            left = true;
+                        }
+                    }
+                }
+
+            }
+
+
+            if (left)
+            {
+                if (up)
+                {
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(" ");
+                    xPosBall--;
+                    yPosBall--;
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(ballChar);
+                }
+                else
+                {
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(" ");
+                    xPosBall--;
+                    yPosBall++;
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(ballChar);
+                }
+            }
+            else
+            {
+                if (up)
+                {
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(" ");
+                    xPosBall++;
+                    yPosBall--;
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(ballChar);
+                }
+                else
+                {
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(" ");
+                    xPosBall++;
+                    yPosBall++;
+                    Console.SetCursorPosition(xPosBall, yPosBall);
+                    Console.Write(ballChar);
+                }
+            }
+        }
+
+        public static void Play(int? movePlayer1, int? movePlayer2)
+        {
+            MoveBall();
+            if (movePlayer1 == 0)
+            {
+                MoveBar(true, false);
+            }
+            else if(movePlayer1==1)
+            {
+                MoveBar(true, true);
+            }
+
+            if (movePlayer2 == 0)
+            {
+                MoveBar(false, false);
+            }
+            else if(movePlayer2==2)
+            {
+                MoveBar(false, true);
+            }
+
+            if(xPosBall == 0)
+            {
+                punktePlayer1--;
+                //punktePlayer2++;
+
+                Console.SetCursorPosition(xPosBall, yPosBall);
+                Console.Write(" ");
+                yPosBall = mapHeigth/2;
+                xPosBall = Pong.bar2x/2;
+                RandBall();
+            }
+            if (xPosBall == bar2x - 1)
+            {
+                //punktePlayer1++;
+                punktePlayer2--;
+
+                Console.SetCursorPosition(xPosBall, yPosBall);
+                Console.Write(" ");
+                yPosBall = mapHeigth/2;
+                xPosBall = bar2x/2;
+                RandBall();
+            }
+        }
+
+
+
+        public static void RandBall()
+        {
+            if (rnd.NextDouble() >= 0.5)
+                up = false;
+            else
+                up = true;
+
+            if (rnd.NextDouble() >= 0.5)
+                left = false;
+            else
+                left = true;
+        }
+
+        public static object GetState1()
+        {
+            return new object[] { (byte)posPlayer1, (byte)xPosBall, (byte)yPosBall, left, up };
+        }
+
+        public static object GetState2()
+        {
+            return new object[] { (byte)posPlayer2, (byte)xPosBall, (byte)yPosBall, left, up };
+        }
+
+        public static double[] GetState1NN()
+        {
+            return new double[] { (byte)posPlayer1, (byte)xPosBall, (byte)yPosBall, Convert.ToDouble(left), Convert.ToDouble(up) };
+        }
+
+        public static double[] GetState2NN()
+        {
+            return new double[] { (byte)posPlayer2, (byte)xPosBall, (byte)yPosBall, Convert.ToDouble(left), Convert.ToDouble(up) };
+        }
+    }
 }

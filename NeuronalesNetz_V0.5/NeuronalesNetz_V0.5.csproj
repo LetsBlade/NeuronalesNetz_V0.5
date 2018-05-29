@@ -54,22 +54,24 @@
     <Compile Include="DisplayArr.Designer.cs">
       <DependentUpon>DisplayArr.cs</DependentUpon>
     </Compile>
-    <Compile Include="KI_Sachen\CNN2D.cs" />
-    <Compile Include="KI_Sachen\Connection.cs" />
-    <Compile Include="KI_Sachen\KI.cs" />
-    <Compile Include="KI_Sachen\NeuroMaths.cs" />
-    <Compile Include="KI_Sachen\Neuron.cs" />
-    <Compile Include="KI_Sachen\NeuronalNet.cs" />
-    <Compile Include="KI_Sachen\NeuronPosition.cs" />
-    <Compile Include="KI_Sachen\SimpleNet.cs" />
-    <Compile Include="KI_Sachen\SimpleNetRNN.cs" />
+    <Compile Include="KompliziertNetSachen\CNN2D.cs" />
+    <Compile Include="KompliziertNetSachen\Connection.cs" />
+    <Compile Include="KompliziertNetSachen\KI.cs" />
+    <Compile Include="KompliziertNetSachen\NeuroMaths.cs" />
+    <Compile Include="KompliziertNetSachen\Neuron.cs" />
+    <Compile Include="KompliziertNetSachen\NeuronalNet.cs" />
+    <Compile Include="KompliziertNetSachen\NeuronPosition.cs" />
+    <Compile Include="KompliziertNetSachen\SimpleNetPreNeu.cs" />
     <Compile Include="LearnAlgos\LinearClassifier.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programme.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LearnAlgos\Q_Learning.cs" />
+    <Compile Include="SimpleNetKlassen\SimpleNet.cs" />
+    <Compile Include="SimpleNetKlassen\SimpleNetRNN.cs" />
+    <Compile Include="SimpleNetKlassen\SimpleNetVer.cs" />
+    <Compile Include="SimpleNetKlassen\UCDIG.cs" />
     <Compile Include="Tetris.cs" />
-    <Compile Include="NNalgos\UCDIG.cs" />
     <Compile Include="Variablen.cs" />
   </ItemGroup>
   <ItemGroup>
